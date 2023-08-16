@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
-import Footer from "./Footer";
+import Footer from "./Task";
 
 const Home = () => {
   const [task, setTask] = useState("");
@@ -14,11 +14,20 @@ const Home = () => {
       .then((res) => console.log(res))
       .catch((err) => console.error(err));
   };
+  const [todo, setTodo] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/todo")
+      .then((res) => {
+        setTodo(res.data.result);
+      })
+      .catch((err) => console.error(err));
+  }, [todo]);
   return (
     <React.Fragment>
       <Container className="d-flex justify-content-center">
-        <Card style={{ width: "30rem" }} className="mt-4">
-          <Card.Header className="text-center">Todo</Card.Header>
+        <Card style={{ width: "30rem",background:"#1b1b40" }} className="mt-4">
+          <Card.Header className="text-center" style={{color:"white"}}>Todo</Card.Header>
           <Card.Body>
             <Form onSubmit={handleSubmit}>
               <Form.Group
@@ -32,14 +41,22 @@ const Home = () => {
                   onChange={(e) => setTask(e.target.value)}
                 />
               </Form.Group>
-              <Button type="submit" className="mt-3 ">
+              <Button type="submit" className="mt-3" style={{background:"#8658fe"}}>
                 Add
               </Button>
             </Form>
           </Card.Body>
         </Card>
       </Container>
-      <Footer/>
+      {
+        todo && todo.map((todos,index)=>{
+          const {_id,task,isCompleted}=todos;
+          if(!isCompleted){
+
+            return <Footer key={index} id={_id} task={task} isCompleted={isCompleted} />
+          }
+        })
+      }
     </React.Fragment>
   );
 };

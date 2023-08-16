@@ -1,17 +1,17 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { TodoAppState } from "../Context/Context";
+// import { TodoAppState } from "../Context/Context";
 
 const SignIn = () => {
-  const { dispatch } = TodoAppState();
+  // const dispatch  = TodoAppState();
   const router = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const [isLoginUser, setIsLoginUser] = useState([]);
+  const [isLoginUser, setIsLoginUser] = useState({});
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -27,10 +27,17 @@ const SignIn = () => {
       })
       .then((res) => setIsLoginUser(res.data.user))
       .then(() => {
+          
         router("/");
       })
       .catch((err) => console.error(err));
   };
+  useEffect(()=>{
+    const user=JSON.parse(localStorage.getItem("current-user"))||[]
+    user.push(isLoginUser)
+    localStorage.setItem("current-user",JSON.stringify(user))
+  },[isLoginUser])
+  console.log(isLoginUser);
   return (
     <React.Fragment>
       <Container className="d-flex justify-content-center">
@@ -76,14 +83,7 @@ const SignIn = () => {
                   />
                 </Col>
               </Form.Group>
-              <Button
-                type="submit"
-                onClick={() =>
-                  dispatch({ type: "Login", payLoad: isLoginUser })
-                }
-              >
-                Submit
-              </Button>
+              <Button type="submit">Submit</Button>
             </Form>
           </Card.Body>
         </Card>

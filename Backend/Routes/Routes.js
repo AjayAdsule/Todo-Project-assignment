@@ -86,9 +86,10 @@ export const showTodo=async(req,res)=>{
 
 // edit todo
 export const editTodo=async (req,res)=>{
-  const {task}=req.body
+  const {task,isCompleted}=req.body
     const Todo=await todo.findByIdAndUpdate(req.params.id,{
-      task
+      task,
+      isCompleted
     })
     res.status(201).json({success:true,Todo})
 }
