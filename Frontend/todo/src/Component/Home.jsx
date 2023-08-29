@@ -3,16 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import Footer from "./Task";
 
+
 const Home = () => {
+ 
   const [task, setTask] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/todo/new", {
-        task: task,
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+    .post("http://localhost:4000/todo/new", {
+      task: task,
+    })
+    .then((res) => console.log(res))
+    .catch((err) => console.error(err));
+    
   };
   const [todo, setTodo] = useState([]);
   useEffect(() => {
@@ -22,7 +25,7 @@ const Home = () => {
         setTodo(res.data.result);
       })
       .catch((err) => console.error(err));
-  }, [todo]);
+  }, []);
   return (
     <React.Fragment>
       <Container className="d-flex justify-content-center">

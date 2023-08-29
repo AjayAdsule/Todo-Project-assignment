@@ -2,10 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-// import { TodoAppState } from "../Context/Context";
+import { TodoAppState } from "../Context/Context";
 
 const SignIn = () => {
-  // const dispatch  = TodoAppState();
+  const {state,dispatch}= TodoAppState();
   const router = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -27,16 +27,12 @@ const SignIn = () => {
       })
       .then((res) => setIsLoginUser(res.data.user))
       .then(() => {
-          
         router("/");
       })
       .catch((err) => console.error(err));
+      dispatch({type:"Login", payLoad:isLoginUser})
   };
-  useEffect(()=>{
-    const user=JSON.parse(localStorage.getItem("current-user"))||[]
-    user.push(isLoginUser)
-    localStorage.setItem("current-user",JSON.stringify(user))
-  },[isLoginUser])
+
   console.log(isLoginUser);
   return (
     <React.Fragment>
@@ -83,7 +79,7 @@ const SignIn = () => {
                   />
                 </Col>
               </Form.Group>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" >Submit</Button>
             </Form>
           </Card.Body>
         </Card>

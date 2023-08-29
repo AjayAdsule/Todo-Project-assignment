@@ -5,12 +5,14 @@ import SignIn from "./Component/SignIn";
 import Home from "./Component/Home";
 import Footer from "./Component/Task";
 import CompleteTask from "./Component/CompleteTask";
+import Context from "./Context/Context";
 
 
 
 const App = () => {
   return (
     <>
+    <Context>
       <Header />
       <Routes>
         <Route exact path="/" element={<Home/>} />
@@ -19,6 +21,7 @@ const App = () => {
         <Route exact path="/task" element={<CompleteTask/>} />
         <Route exact path="/card" element={<Footer/>} />
       </Routes>
+      </Context>
     </>
   );
 };

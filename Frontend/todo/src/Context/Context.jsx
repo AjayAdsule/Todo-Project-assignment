@@ -10,10 +10,12 @@ const reducerFunction=(state,action)=>{
         }
     }
 }
+const initialState={
+  name:'ajay',
+  surname:'vijay'
+}
 const Context = ({children}) => {
-  const {state,dispatch} = useReducer(reducerFunction,{
-    loginUser:{}
-  })
+  const {state,dispatch} = useReducer(reducerFunction,initialState)
   return (
     <>
       <TodoApp.Provider value={{state,dispatch}}>
